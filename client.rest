@@ -14,16 +14,41 @@ Content-Type: application/json
 
 {
   "texto": "Recado de teste",
-  "de": "João",
-  "para": "Maria",
+  "deId": 1,
+  "paraId": 1
 } 
-
 
 ###Atualiza de um Recados 
 PATCH {{baseUrl}}/recados/2 
 Content-Type: application/json
 
 {
-  "texto": "Recado de teste",
-  "de": "João",
+  "texto": "Recado Atualizado",
+  "de": "João Silva",
+  "para": "Maria",
+  "lido": true
+}
+
+###Deleta um Recados
+DELETE {{baseUrl}}/recados/5
+
+
+###Pessoa
+###List de todas as pessoas 
+###
+GET {{baseUrl}}/pessoas
+
+
+###Lista de um pessoas 
+GET {{baseUrl}}/pessoas/2/
+
+###Lista de um pessoas 
+POST {{baseUrl}}/pessoas
+Content-Type: application/json
+
+{
+  "email": "teste3@email.com",
+  "password": "123456",
+  "nome": "Maria"
+  
 } 

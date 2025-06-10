@@ -20,9 +20,10 @@ export class RecadosController {
 
   @HttpCode(HttpStatus.OK)
   @Get()
-  findAll() {
+  async findAll() {
     //const { limit = 10, offset = 10 } = pagination;
-    return this.recadosService.findAll();
+    const recados = await this.recadosService.findAll();
+    return recados;
   }
 
   @Get(':id')
@@ -36,7 +37,10 @@ export class RecadosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() UpdateRecadoDto: UpdateRecadoDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() UpdateRecadoDto: UpdateRecadoDto,
+  ) {
     return this.recadosService.update(id, UpdateRecadoDto);
   }
 
