@@ -1,0 +1,29 @@
+@baseUrl =  http://localhost:3000
+
+###List de Todos Recados 
+###
+GET {{baseUrl}}/recados
+
+
+###Lista de um Recados 
+GET {{baseUrl}}/recados/1/
+
+###Lista de um Recados 
+POST {{baseUrl}}/recados
+Content-Type: application/json
+
+{
+  "texto": "Recado de teste",
+  "de": "João",
+  "para": "Maria",
+} 
+
+
+###Atualiza de um Recados 
+PATCH {{baseUrl}}/recados/2 
+Content-Type: application/json
+
+{
+  "texto": "Recado de teste",
+  "de": "João",
+} 
