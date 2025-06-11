@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('Recado')
+@Entity()
 export class Recado {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,13 +18,13 @@ export class Recado {
   texto: string;
 
   //muitos recados podem ser eviados por uma unica Pessoa(emissor)
-  @ManyToOne(() => Pessoa)
+  @ManyToOne(() => Pessoa, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   //especifica a coluna que armazena o id da pessoa que enviou o recado
   @JoinColumn({ name: 'de' })
   de: Pessoa;
 
   //muitos recados podem ser eviados para uma unica Pessoa(destinatário)
-  @ManyToOne(() => Pessoa)
+  @ManyToOne(() => Pessoa, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   //especifica a coluna que armazena o id da pessoa que recebe o recado
   @JoinColumn({ name: 'para' })
   para: Pessoa;

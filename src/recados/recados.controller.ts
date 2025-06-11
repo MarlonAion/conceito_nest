@@ -9,10 +9,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ReqDataParam } from 'src/common/params/req-data-param.decarator';
 
 @Controller('recados')
 export class RecadosController {
@@ -20,9 +23,11 @@ export class RecadosController {
 
   @HttpCode(HttpStatus.OK)
   @Get()
-  async findAll() {
-    //const { limit = 10, offset = 10 } = pagination;
-    const recados = await this.recadosService.findAll();
+  async findAll(
+    @Query() paginationDto: PaginationDto,
+    @ReqDataParam('url') method,
+  ) {
+    const recados = await this.recadosService.findAll(paginationDto);
     return recados;
   }
 
@@ -39,9 +44,9 @@ export class RecadosController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() UpdateRecadoDto: UpdateRecadoDto,
+    @Body() updateRecadoDto: UpdateRecadoDto,
   ) {
-    return this.recadosService.update(id, UpdateRecadoDto);
+    return this.recadosService.update(id, updateRecadoDto);
   }
 
   @Delete(':id')

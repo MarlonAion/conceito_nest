@@ -1,9 +1,9 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateRecadoDto } from './create-recado.dto';
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator';
 
 export class UpdateRecadoDto extends PartialType(CreateRecadoDto) {
   @IsBoolean()
-  @IsNotEmpty()
+  @IsOptional()
   readonly lido?: boolean;
 }
