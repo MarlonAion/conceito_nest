@@ -47,7 +47,7 @@ export class RecadosService {
     return recado;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Recado> {
     // return this.recados.find((recado) => recado.id === id);
     const recado = await this.recadoRepository.findOne({
       where: {
@@ -69,8 +69,10 @@ export class RecadosService {
       },
     });
 
-    if (recado) return recado;
-    this.throwNotFoundError();
+    if (!recado) {
+      throw new NotFoundException(`Recado com id ${id} não encontrado`);
+    }
+    return recado;
   }
 
   async cretate(createRecadoDto: CreateRecadoDto) {

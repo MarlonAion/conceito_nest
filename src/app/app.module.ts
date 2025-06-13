@@ -7,13 +7,15 @@ import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 import globalConfig from 'src/global-config/global.config';
 import { GlobalConfigModule } from 'src/global-config/global-config.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot(), // carrega variáveis de ambiente
+    GlobalConfigModule, // <== esse módulo fornece o 'globalConfig'
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule.forFeature(globalConfig)],
-      inject: [globalConfig.KEY],
+      imports: [GlobalConfigModule], // <== importa o módulo que REGISTRA o provider
+      inject: ['globalConfig'], // <== injetando o token pelo nome
       useFactory: (globalConfigurations: ConfigType<typeof globalConfig>) => {
         return {
           type: globalConfigurations.database.type,
@@ -29,8 +31,7 @@ import { GlobalConfigModule } from 'src/global-config/global-config.module';
     }),
     RecadosModule,
     PessoasModule,
-
-    GlobalConfigModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

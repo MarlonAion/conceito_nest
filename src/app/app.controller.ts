@@ -9,8 +9,8 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
 
-    @Inject(globalConfig.KEY)
-    private readonly globalConfiguration: ConfigType<typeof globalConfig>,
+    @Inject('globalConfig')
+    private readonly appConfiguration: ConfigType<typeof globalConfig>,
   ) {}
 
   @Get()

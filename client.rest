@@ -1,14 +1,14 @@
 @baseUrl =  http://localhost:3000
-
+###Recados
 ###List de Todos Recados 
 ###
 GET {{baseUrl}}/recados/
-?limite=10
-?offset=0
+?limit=2
+?offset=1
 Authorization: "Bearer token"
 
 ###Lista de um Recados 
-GET {{baseUrl}}/recados/1/
+GET {{baseUrl}}/recados/
 
 ###Lista de um Recados 
 POST {{baseUrl}}/recados
@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "texto": "Recado de teste",
-  "deId": 1,
-  "paraId": 1
+  "deId": 9,
+  "paraId": 10
 } 
 
 ###Atualiza de um Recados 
@@ -26,31 +26,54 @@ Content-Type: application/json
 
 {
   "texto": "Recado Atualizado",
-  "deId": 1,
-  "paraId": 2,
+  "deId": 9,
+  "paraId": 6,
   "lido": true
 }
 
 ###Deleta um Recados
 DELETE {{baseUrl}}/recados/5
 
+#
 
-###Pessoa
+# Pessoa
+
 ###List de todas as pessoas 
 ###
-GET {{baseUrl}}/pessoas
-
-
+GET {{baseUrl}}/pessoas/
+?limit=10
+?offset=0
 ###Lista de um pessoas 
 GET {{baseUrl}}/pessoas/2/
-
-###Lista de um pessoas 
+###Criar de um pessoas 
 POST {{baseUrl}}/pessoas
 Content-Type: application/json
 
 {
-  "email": "teste3@email.com",
+  "email": "teste@example.com",
   "password": "123456",
-  "nome": "Maria"
+  "nome": "Marlon Machado"
+  
+} 
+###Atualização de um pessoas 
+PATCH  {{baseUrl}}/pessoas/4
+Content-Type: application/json
+
+{
+  "nome ": "aaaaaaaa"
+} 
+###Deleta um Recados
+DELETE {{baseUrl}}/pessoas/5
+
+#
+
+# Auth
+###criar Auth 
+POST  {{baseUrl}}/auth/
+Content-Type: application/json
+
+{
+  "email": "testedeusuario1@email.com",
+  "password": "123456"
   
 } 
