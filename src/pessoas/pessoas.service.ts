@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   Scope,
@@ -10,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Pessoa } from './entities/pessoa.entity';
 import { Repository } from 'typeorm';
 import { HashingService } from 'src/auth/hashing/hashing.service';
+import { TokenPayloadDto } from 'src/auth/dto/token-payload.dto';
 
 @Injectable({ scope: Scope.DEFAULT })
 export class PessoasService {
@@ -62,7 +64,11 @@ export class PessoasService {
     return pessoa;
   }
 
-  async update(id: number, updatePessoaDto: UpdatePessoaDto) {
+  async update(
+    id: number,
+    updatePessoaDto: UpdatePessoaDto,
+    tokenPayLoad: TokenPayloadDto,
+  ) {
     const partialUpdateRecadoDto = {
       nome: updatePessoaDto?.nome,
       //passwordHash: updatePessoaDto?.password,
@@ -76,22 +82,35 @@ export class PessoasService {
       partialUpdateRecadoDto['passwordHash'] = passwordHash;
     }
 
+    //pre-seleciona a pessoa na base de dados caso exista
     const pessoa = await this.pessoaRepository.preload({
       id,
       ...partialUpdateRecadoDto,
     });
+
+    //se a pessoa não existir lança um erro
     if (!pessoa) {
       throw new NotFoundException('Pessoa não encontrada');
     }
 
+    //compara pessoa id com pessoa token id
+    if (pessoa.id !== tokenPayLoad.sub) {
+      throw new ForbiddenException('Você não é uma pessoa.');
+    }
+    //caso exista salva a pessoa no banco de dados
     return this.pessoaRepository.save(pessoa);
   }
 
-  async remove(id: number) {
+  async remove(id: number, tokenPayLoad: TokenPayloadDto) {
     const pessoa = await this.pessoaRepository.findOneBy({ id });
 
     if (!pessoa) {
       throw new NotFoundException('Pessoa não encontrada');
+    }
+
+    //compara pessoa id com pessoa token id
+    if (pessoa.id !== tokenPayLoad.sub) {
+      throw new ForbiddenException('Você não é uma pessoa.');
     }
 
     return this.pessoaRepository.remove(pessoa);

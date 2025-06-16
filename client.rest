@@ -1,38 +1,42 @@
 @baseUrl =  http://localhost:3000
+@authToken = {{authenticate.response.body.accessToken}}
+@refreshToken = {{authenticate.response.body.refreshToken}}
+
 ###Recados
 ###List de Todos Recados 
 ###
 GET {{baseUrl}}/recados/
-?limit=2
-?offset=1
-Authorization: "Bearer token"
+?limit=10
+?offset=0
+Authorization: Bearer {{authToken}}
 
 ###Lista de um Recados 
 GET {{baseUrl}}/recados/
 
-###Lista de um Recados 
+###criar  um Recados 
 POST {{baseUrl}}/recados
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
   "texto": "Recado de teste",
-  "deId": 9,
   "paraId": 10
 } 
 
 ###Atualiza de um Recados 
 PATCH {{baseUrl}}/recados/2 
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
   "texto": "Recado Atualizado",
-  "deId": 9,
   "paraId": 6,
   "lido": true
 }
 
 ###Deleta um Recados
 DELETE {{baseUrl}}/recados/5
+Authorization: Bearer {{authToken}}
 
 #
 
@@ -43,6 +47,7 @@ DELETE {{baseUrl}}/recados/5
 GET {{baseUrl}}/pessoas/
 ?limit=10
 ?offset=0
+Authorization: Bearer {{authToken}}
 ###Lista de um pessoas 
 GET {{baseUrl}}/pessoas/2/
 ###Criar de um pessoas 
@@ -68,12 +73,26 @@ DELETE {{baseUrl}}/pessoas/5
 #
 
 # Auth
-###criar Auth 
+### Autenticação
+# @name authenticate
+
 POST  {{baseUrl}}/auth/
 Content-Type: application/json
 
 {
   "email": "testedeusuario1@email.com",
   "password": "123456"
+  
+} 
+
+
+### Re-Autenticação
+# @name reAuthenticate
+
+POST  {{baseUrl}}/auth/refresh/
+Content-Type: application/json
+
+{
+  "refresh":"{{refreshToken}}",
   
 } 
