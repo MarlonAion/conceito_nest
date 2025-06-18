@@ -89,10 +89,11 @@ export class AuthService {
       );
       const pessoa = await this.pessoaRepository.findOneBy({
         id: sub,
+        active: true,
       });
 
       if (!pessoa) {
-        throw new Error('Pessoa Não encontrada.');
+        throw new Error('Pessoa Não Autorizada .');
       }
       return this.createToken(pessoa);
     } catch (error) {

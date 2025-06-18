@@ -10,11 +10,18 @@ import { Request } from 'express';
 import jwtConfig from '../config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { REQUEST_TOKEN_PAYLOAD_KEY } from '../hashing/auth.constants';
+import { Repository } from 'typeorm';
+import { Pessoa } from 'src/pessoas/entities/pessoa.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthTokenGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
+
+    @InjectRepository(Pessoa)
+    private readonly pessoaRepository: Repository<Pessoa>,
+
     @Inject(jwtConfig.KEY)
     private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
@@ -32,6 +39,15 @@ export class AuthTokenGuard implements CanActivate {
         token,
         this.jwtConfiguration,
       );
+
+      const pessoa = await this.pessoaRepository.findOneBy({
+        id: payload.sub,
+        active: true,
+      });
+
+      if (!pessoa) {
+        throw new UnauthorizedException('Pessoa Não autorizada');
+      }
 
       request[REQUEST_TOKEN_PAYLOAD_KEY] = payload;
     } catch (error) {
