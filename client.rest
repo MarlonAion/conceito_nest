@@ -11,7 +11,7 @@ GET {{baseUrl}}/recados/
 Authorization: Bearer {{authToken}}
 
 ###Lista de um Recados 
-GET {{baseUrl}}/recados/
+GET {{baseUrl}}/recados//
 
 ###criar  um Recados 
 POST {{baseUrl}}/recados
@@ -19,8 +19,8 @@ Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
-  "texto": "Recado de teste",
-  "paraId": 10
+  "texto": "Recado de teste4",
+  "paraId": 12
 } 
 
 ###Atualiza de um Recados 
@@ -93,6 +93,6 @@ POST  {{baseUrl}}/auth/refresh/
 Content-Type: application/json
 
 {
-  "refresh":"{{refreshToken}}",
+  "refreshToken":"{{refreshToken}}"
   
 } 
