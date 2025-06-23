@@ -5,8 +5,8 @@
 ###Recados
 ###List de Todos Recados 
 ###
-GET {{baseUrl}}/recados/
-?limit=10
+GET {{baseUrl}}/recados
+?limit=5
 ?offset=0
 Authorization: Bearer {{authToken}}
 

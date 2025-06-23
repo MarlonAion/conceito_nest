@@ -97,7 +97,9 @@ export class AuthService {
       }
       return this.createToken(pessoa);
     } catch (error) {
-      throw new UnauthorizedException(error.message);
+      throw new UnauthorizedException(
+        error instanceof Error ? error.message : 'Unauthorized',
+      );
     }
   }
 }
