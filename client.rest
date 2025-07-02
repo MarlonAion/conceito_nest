@@ -51,13 +51,14 @@ Authorization: Bearer {{authToken}}
 ###Lista de um pessoas 
 GET {{baseUrl}}/pessoas/2/
 ###Criar de um pessoas 
-POST {{baseUrl}}/pessoas
+POST {{baseUrl}}/pessoas/
 Content-Type: application/json
 
 {
-  "email": "teste@example.com",
+  "email": "teste8@example.com",
   "password": "123456",
-  "nome": "Marlon Machado"
+  "nome": "Marlon Machado",
+  "routePolicies": ["createRecado", "findOneRecado"]
   
 } 
 ###Atualização de um pessoas 

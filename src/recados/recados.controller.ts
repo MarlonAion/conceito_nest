@@ -3,14 +3,11 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   Query,
-  SetMetadata,
   UseGuards,
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
@@ -21,6 +18,8 @@ import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
 import { TokenPayloadParams } from 'src/auth/params/token-payload.params';
 import { TokenPayloadDto } from 'src/auth/dto/token-payload.dto';
 import { RoutePolicyGuard } from 'src/auth/guard/route-policy.guard';
+import { SetRoutePolicy } from 'src/auth/decorator/set-route-policy.decorator';
+import { RoutePolicies } from 'src/auth/enums/route-policies.enum';
 
 @UseGuards(RoutePolicyGuard)
 @Controller('recados')
@@ -28,7 +27,7 @@ export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
 
   @Get()
-  @SetMetadata('routePolicy', 'findAllRecados')
+  @SetRoutePolicy(RoutePolicies.findAllRecados)
   async findAll(@Query() paginationDto: PaginationDto) {
     const recados = await this.recadosService.findAll(paginationDto);
     return recados;
