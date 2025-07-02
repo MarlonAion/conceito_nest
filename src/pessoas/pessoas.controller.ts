@@ -11,7 +11,7 @@ import {
 import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
+import { AuthTokenGuard } from 'src/auth/guards/auth-token.guard';
 import { TokenPayloadParams } from 'src/auth/params/token-payload.params';
 import { TokenPayloadDto } from 'src/auth/dto/token-payload.dto';
 

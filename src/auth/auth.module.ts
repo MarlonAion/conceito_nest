@@ -8,6 +8,8 @@ import { Pessoa } from 'src/pessoas/entities/pessoa.entity';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
+import { AuthTokenGuard } from './guards/auth-token.guard';
+import { RoutePolicyGuard } from './guards/route-policy.guard';
 
 @Global()
 @Module({
@@ -25,7 +27,16 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
     },
     AuthService,
     JwtService,
+    AuthTokenGuard,
+    RoutePolicyGuard,
   ],
-  exports: [HashingService, JwtService, ConfigModule, TypeOrmModule],
+  exports: [
+    HashingService,
+    JwtService,
+    ConfigModule,
+    TypeOrmModule,
+    AuthTokenGuard,
+    RoutePolicyGuard,
+  ],
 })
 export class AuthModule {}

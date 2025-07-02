@@ -14,14 +14,13 @@ import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
+import { AuthTokenGuard } from 'src/auth/guards/auth-token.guard';
 import { TokenPayloadParams } from 'src/auth/params/token-payload.params';
 import { TokenPayloadDto } from 'src/auth/dto/token-payload.dto';
-import { RoutePolicyGuard } from 'src/auth/guard/route-policy.guard';
+import { RoutePolicyGuard } from 'src/auth/guards/route-policy.guard';
 import { SetRoutePolicy } from 'src/auth/decorator/set-route-policy.decorator';
 import { RoutePolicies } from 'src/auth/enums/route-policies.enum';
 
-@UseGuards(RoutePolicyGuard)
 @Controller('recados')
 export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
@@ -38,7 +37,8 @@ export class RecadosController {
     return this.recadosService.findOne(id);
   }
 
-  @UseGuards(AuthTokenGuard)
+  @UseGuards(AuthTokenGuard, RoutePolicyGuard)
+  @SetRoutePolicy(RoutePolicies.createRecado)
   @Post()
   create(
     @Body() createRecadoDto: CreateRecadoDto,
